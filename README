@@ -1,0 +1,12 @@
+This project is based on the impress.
+how to run?
+1 make test
+2 ./a.out
+3 make
+4 ./impress
+After do this, you will see the impress_home dir, the generated data is in there.
+
+Good luck!
+
+contact me
+wanglongxiang0419@gmial.com

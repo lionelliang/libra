@@ -1,0 +1,73 @@
+/*
+ * DedupFileGenerator.h
+ *
+ *  Created on: 2013-10-4
+ *      Author: wlx
+ */
+
+#ifndef DEDUPFILEGENERATOR_H_
+#define DEDUPFILEGENERATOR_H_
+#include <iostream>
+#include <list>
+#include "stat.h"
+#include <string>
+//#include "sqlite3.h"
+#include "MysqlOperation.h"
+
+using namespace std;
+
+struct chunkInfo {
+	int size;
+	string md5Value;
+};
+
+//创建一个list容器的实例LISTINT
+
+typedef vector<chunkInfo> VectorChunkInfo;
+
+
+class DedupChunkInfoGenerator {
+private:
+	long capacity;
+	long accumulateSize;
+	long realSize;
+	long dedupSize;
+	VectorChunkInfo chunkInfoVector;
+	Random rand;
+	int minChunkSize;
+	int maxChunkSize;
+	//size distribution param, generalized extreme value distribution
+	double k;
+	double sigma;
+	double mu;
+	//dedup chunk number distribution param, gamma distribution
+	double a; //location
+	double b; //scale
+	double c; //shape
+	VectorChunkInfo::iterator chunkInfoIter;
+	/*sqlite3 * db;
+	string sql;
+	char *zErrMsg;
+	sqlite3_stmt *selectStmt;*/
+	MysqlOperation mysqlOp;
+	char * mysqlMsg;
+	int ret;
+	int sizefd;
+	int dedupCountfd;
+
+public:
+	DedupChunkInfoGenerator(long int capacity,Random  rand,double k,double sigma,double mu,double a,double b);
+	void generateDedupChunkList();
+	string generateChunkContent(int size);
+	chunkInfo  getNextChunkInfo();
+	int getMinChunkSize();
+	string  getChunkContent(string hash);
+	char * getChunkContent();
+	void closeDB();
+	void writeDedupInfo();
+private:
+	string getString ( const int n );
+};
+
+
+#endif /* DEDUPFILEGENERATOR_H_ */

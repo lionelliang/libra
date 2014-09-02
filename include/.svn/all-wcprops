@@ -1,0 +1,77 @@
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svn/impress_dedup/!svn/ver/3/branches/impress_dedup_source_content/include
+END
+DedupChunkInfoGenerator.h
+K 25
+svn:wc:ra_dav:version-url
+V 101
+/svn/impress_dedup/!svn/ver/3/branches/impress_dedup_source_content/include/DedupChunkInfoGenerator.h
+END
+classes.h
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/impress_dedup/!svn/ver/3/branches/impress_dedup_source_content/include/classes.h
+END
+fslib.h
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svn/impress_dedup/!svn/ver/3/branches/impress_dedup_source_content/include/fslib.h
+END
+impress.h
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/impress_dedup/!svn/ver/3/branches/impress_dedup_source_content/include/impress.h
+END
+fragment.h
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/svn/impress_dedup/!svn/ver/3/branches/impress_dedup_source_content/include/fragment.h
+END
+montecarlo.h
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/svn/impress_dedup/!svn/ver/3/branches/impress_dedup_source_content/include/montecarlo.h
+END
+md5.h
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svn/impress_dedup/!svn/ver/3/branches/impress_dedup_source_content/include/md5.h
+END
+MysqlOperation.h
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/svn/impress_dedup/!svn/ver/3/branches/impress_dedup_source_content/include/MysqlOperation.h
+END
+posix_lib.h
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svn/impress_dedup/!svn/ver/3/branches/impress_dedup_source_content/include/posix_lib.h
+END
+strTools.h
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/svn/impress_dedup/!svn/ver/3/branches/impress_dedup_source_content/include/strTools.h
+END
+stat.h
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svn/impress_dedup/!svn/ver/3/branches/impress_dedup_source_content/include/stat.h
+END
+word.h
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svn/impress_dedup/!svn/ver/3/branches/impress_dedup_source_content/include/word.h
+END
