@@ -1,9 +1,16 @@
 This project is based on the impress.
 how to run?
-1 make loadToken
-2 make all
-3 ./loadToken
-4 ./libra
+
+make sure you installed leveldb
+
+1 	make loadToken
+2 	make all
+	mkdir impress_home
+3 	./loadToken
+4 	./libra
+
+if you want to clean the project
+make clean
 
 After doing this, you will see the impress_home dir, the generated data is in there.
 

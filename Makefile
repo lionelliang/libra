@@ -41,4 +41,5 @@ loadToken.o:	 loadToken.cpp
 strTools.o:		strTools.cpp
 	$(CC) $(CFLAGS) -c strTools.cpp 
 clean: 
-	rm -f *.o  *.out *~ impressions libra loadToken 
+	rm -f *.o  *.out *~ impressions libra loadToken
+	rm -r impress_home
