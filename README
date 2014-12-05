@@ -1,9 +1,10 @@
 This project is based on the impress.
 how to run?
-1 make test
-2 ./a.out
-3 make
-4 ./impress
+1 make loadToken
+2 make all
+3 ./loadToken
+4 ./libra
+
 After doing this, you will see the impress_home dir, the generated data is in there.
 
 Good luck!
