@@ -111,6 +111,11 @@ public:
 	char getSpace();
 	string generateTokenBlock();
 	void loadTokenToMap();
+
+	// added to generate Zipf-Mandelbort distribution
+	long ZipfMandelbrot(long N, double q, double s);
+	double getH(long N, double q, double s);
+
 private:
 	string getString(const int n);
 };

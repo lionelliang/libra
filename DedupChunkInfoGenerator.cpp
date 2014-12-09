@@ -134,9 +134,13 @@ string DedupChunkInfoGenerator::generateTokenBlock() {
 	 double b = gammaB;
 	 double c = gammaA;*/
 	//this paramter is for all the linux token
-	double words_mu = 6.09101;
-	double words_sigma = 3.82877;
-	double lgValue;
+//	double words_mu = 6.09101;
+//	double words_sigma = 3.82877;
+//	double lgValue;
+
+	long N = 50;
+	double zipValue, q = 1.0, s = 2.0;
+
 	stringstream ss;
 	string value("");
 //double gammaValue = rand.gamma(a, b, c);
@@ -144,10 +148,11 @@ string DedupChunkInfoGenerator::generateTokenBlock() {
 	//int tokenNUm = rand.uniformDiscrete(100, 200);
 	int tokenNum=20;
 	for (int i = 0; i < tokenNum; i++) {
-		lgValue = rand.lognormal(a, words_mu, words_sigma);
-		lgValue = floor(lgValue)+1;
+//		lgValue = rand.lognormal(a, words_mu, words_sigma);
+//		lgValue = floor(lgValue)+1;
+		zipValue = ZipfMandelbrot(N, q, s);
 		string valueStr;
-		valueStr = getString(lgValue);
+		valueStr = getString(zipValue);
 		/*		Slice key = valueStr;
 		 Status status = db->Get(ReadOptions(), key, &value);
 		 if (!status.ok()) {
@@ -267,3 +272,39 @@ void DedupChunkInfoGenerator::writeDedupInfo() {
 
 }
 
+/**
+ *  k = (H*f)^1/s - q
+ */
+long DedupChunkInfoGenerator::ZipfMandelbrot(long N, double q, double s) {
+	assert(N > 0);
+
+	double H = this->getH(N, q, s);
+	cout <<  "H is " << H << "\n";
+
+	Random rand = Random();
+	double f = rand.uniform();
+	cout << f << "\n";
+	double temp = pow(H * f, -1.0 / s);
+	cout << temp << "\n";
+
+	long zipfValue = temp - q;
+
+	return zipfValue;
+}
+
+/**
+ * H = for i=1:N sum(1/(i + q))
+ */
+double DedupChunkInfoGenerator::getH( long N, double q, double s) {
+	assert(N > 0);
+
+	double H = 0.0, temp;
+
+	for (int i = 1; i <= N; i++) {
+		temp = pow((i + q), -s);
+		H += temp;
+	}
+	cout << H << "\n";
+
+	return H;
+}
