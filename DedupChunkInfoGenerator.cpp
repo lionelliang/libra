@@ -53,22 +53,6 @@ DedupChunkInfoGenerator::DedupChunkInfoGenerator( Random rand
 	this->realSize = 0;
 	this->dedupSize = 0;
 	this->queueSize = 1000;
-	/*
-	 mode_t mode = S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH;
-	 char strerr[100];
-	 string fileName = "result/size.txt";
-	 if ((sizefd = pos_creat(fileName.data(), mode)) < 0) {
-	 strerror_r(errno, strerr, 100);
-	 print_debug(1, "Error: Unable to create file= %s %d\n", fileName.data(),
-	 errno);
-	 }
-	 fileName.clear();
-	 fileName = "result/dedupCount.txt";
-	 if ((dedupCountfd = pos_creat(fileName.data(), mode)) < 0) {
-	 strerror_r(errno, strerr, 100);
-	 print_debug(1, "Error: Unable to create file= %s %d\n", fileName.data(),
-	 errno);
-	 }*/
 }
 
 chunkInfo DedupChunkInfoGenerator::getNextChunkInfo() {
@@ -100,93 +84,32 @@ void DedupChunkInfoGenerator::loadTokenToMap() {
 	}
 }
 string DedupChunkInfoGenerator::getTokenBlock() {
-	//int randNum = rand.uniformDiscrete(1, 100);
 	string tokenBlock;
-/*	bool readFromQueue = false;
-	int size = tokenQueue.size();
-	if (size >= 1000) {
-		readFromQueue = true;
-	}
-	if (randNum > 70 && (!tokenQueue.empty())) {
-		readFromQueue = true;
-	}*/
 	tokenBlock = generateTokenBlock();
-	/*	readFromQueue=false;
-	 //cout<<"queue size is: "<<size<<"\t"<<readFromQueue<<endl;
-	 if(readFromQueue) {
-
-	 tokenBlock=tokenQueue.front();
-	 tokenQueue.pop();
-	 int size=tokenBlock.size();
-	 realSize+=size;
-	 }else {
-
-	 tokenBlock=generateTokenBlock();
-	 //tokenQueue.push(tokenBlock);
-	 }*/
 	return tokenBlock;
 
 }
 string DedupChunkInfoGenerator::generateTokenBlock() {
-	/*	double gammaA = 0.167673;
-	 double gammaB = 239383;
-	 double a = 0;
-	 double b = gammaB;
-	 double c = gammaA;*/
-	//this paramter is for all the linux token
-//	double words_mu = 6.09101;
-//	double words_sigma = 3.82877;
-//	double lgValue;
 
 	long N = 50;
 	double zipValue, q = 1.0, s = 2.0;
 
 	stringstream ss;
 	string value("");
-//double gammaValue = rand.gamma(a, b, c);
-//gammaValue = ceil(gammaValue);
-	//int tokenNUm = rand.uniformDiscrete(100, 200);
+
 	int tokenNum=20;
 	for (int i = 0; i < tokenNum; i++) {
-//		lgValue = rand.lognormal(a, words_mu, words_sigma);
-//		lgValue = floor(lgValue)+1;
 		zipValue = ZipfMandelbrot(N, q, s);
 		string valueStr;
 		valueStr = getString(zipValue);
-		/*		Slice key = valueStr;
-		 Status status = db->Get(ReadOptions(), key, &value);
-		 if (!status.ok()) {
-		 continue;
-		 }*/
-		/*the tokenMap holds the key-value entry.key is the token number.
-		*value is the token string.*/
 		tmap_it = tokenMap.find(valueStr);
 		if (tmap_it == tokenMap.end()) {
-			/*cout << "error,the token not found in token map" << endl;
-			exit(-1);*/
-			//cout<<valueStr<<" not found"<< endl;
 			i--;
 			continue;
 		} else {
 			value = tmap_it->second;
 		}
 		ss << value << " ";
-/*		if (i % 20 == 0) {
-			ss << "\n";
-		}*/
-		//} while (value.empty());
-		//cout << value << endl;
-		//caculate the dedup ratio
-		/*		tsIter = tokenSet.find(value);
-		 //cout << "find is dedup" << endl;
-		 if (tsIter == tokenSet.end()) {
-		 tokenSet.insert(value);
-		 int tokenLen = value.length();
-		 realSize += tokenLen;
-		 dedupSize += tokenLen;
-		 } else {
-		 realSize += value.length();
-		 }*/
 	}
 	ss<<"\n";
 	return ss.str();
@@ -202,7 +125,6 @@ char DedupChunkInfoGenerator::getSpace() {
 	return c;
 }
 void DedupChunkInfoGenerator::closeDB() {
-//sqlite3_close(db);
 	delete db;
 }
 void DedupChunkInfoGenerator::openDB() {
@@ -217,15 +139,12 @@ void DedupChunkInfoGenerator::openDB() {
 }
 void DedupChunkInfoGenerator::readTokenMapToDB() {
 
-//ifstream in("./tokenData/token_list_hadoop.txt");
 	ifstream in("./tokenData/token_list.txt");
 	if (!in.is_open()) {
 		cout << "Error opening file";
 		exit(1);
 	}
-//WriteOptions wOptions=WriteOptions();
 	while (!in.eof()) {
-		//cout<<i++<<endl;
 		string lineStr;
 		getline(in, lineStr);
 		if (lineStr.empty())
@@ -260,11 +179,6 @@ void DedupChunkInfoGenerator::writeDedupInfo() {
 				errno);
 	}
 	std::ostringstream s;
-	//s << "dedup ratio is:" << dedupRatio << endl;
-	/*s<<"real size is :"<<realSize/1024/1024<<"m"<<endl;
-	 s<<"after dedup size is :"<<dedupSize/1024/1024<<"m"<<endl;*/
-	//s << "real size is :" << realSize << "byte" << endl;
-	//s << "after dedup size is :" << dedupSize << "byte" << endl;
 	string str = s.str();
 	pos_write(fd, str.data(), str.size());
 	pos_close(fd);
