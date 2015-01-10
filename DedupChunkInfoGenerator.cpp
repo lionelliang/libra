@@ -193,13 +193,13 @@ long DedupChunkInfoGenerator::ZipfMandelbrot(long N, double q, double s) {
 	assert(N > 0);
 
 	double H = this->getH(N, q, s);
-	cout <<  "H is " << H << "\n";
+	//cout <<  "H is " << H << "\n";
 
 	Random rand = Random();
 	double f = rand.uniform();
-	cout << f << "\n";
+	//cout << f << "\n";
 	double temp = pow(H * f, -1.0 / s);
-	cout << temp << "\n";
+	//cout << temp << "\n";
 
 	long zipfValue = temp - q;
 
@@ -218,7 +218,7 @@ double DedupChunkInfoGenerator::getH( long N, double q, double s) {
 		temp = pow((i + q), -s);
 		H += temp;
 	}
-	cout << H << "\n";
+	//cout << H << "\n";
 
 	return H;
 }
