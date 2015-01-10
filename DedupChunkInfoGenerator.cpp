@@ -198,10 +198,11 @@ long DedupChunkInfoGenerator::ZipfMandelbrot(long N, double q, double s) {
 	Random rand = Random();
 	double f = rand.uniform();
 	//cout << f << "\n";
-	double temp = pow(H * f, -1.0 / s);
+	//double temp = pow(H * f, -1.0 / s);
+	double temp = pow(f + q, -s);
 	//cout << temp << "\n";
 
-	long zipfValue = temp - q;
+	long zipfValue = temp / H;
 
 	return zipfValue;
 }
