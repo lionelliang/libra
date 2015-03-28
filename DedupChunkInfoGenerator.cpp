@@ -27,6 +27,7 @@
 #include "md5.h"
 #include <sstream>
 #include "stat.h"
+#include <stdlib.h>
 
 #include "leveldb/db.h"
 #include "leveldb/options.h"
@@ -99,7 +100,9 @@ string DedupChunkInfoGenerator::generateTokenBlock() {
 
 	int tokenNum=20;
 	for (int i = 0; i < tokenNum; i++) {
-		zipValue = ZipfMandelbrot(N, q, s);
+		//zipValue = ZipfMandelbrot(N, q, s);
+		zipValue = ZipfMandelbrot2(0.2627, -1.33, 0);
+		//zipValue = ZipfMandelbrot3(0.1382, 0.4796, 1.023, -5.572e-06);
 		string valueStr;
 		valueStr = getString(zipValue);
 		tmap_it = tokenMap.find(valueStr);
@@ -203,6 +206,38 @@ long DedupChunkInfoGenerator::ZipfMandelbrot(long N, double q, double s) {
 	//cout << temp << "\n";
 
 	long zipfValue = temp / H;
+
+	return zipfValue;
+}
+
+/**
+ *  y = a*x^b + c
+ *  k = ((y-c)/a)^1/b
+ */
+long ZipfMandelbrot2(double a, double b, double c) {
+
+	double f = rand()/(double)RAND_MAX;
+	double d = (f-c)/a;
+	double temp = pow(d, 1.0/b);
+	long zipfValue = temp  + 1;
+
+	//cout << zipfValue << " \n";
+
+	return zipfValue;
+}
+
+/**
+ *  y = a*(x-b)^(-c)+d
+ *  k = b + ((f-d)/a)^(-1/c)
+ */
+long ZipfMandelbrot3(double a, double b, double c, double d) {
+
+	double f = rand()/(double)RAND_MAX;
+	double e = (f-d)/a;
+	double temp = pow(e, -1.0/c);
+	long zipfValue = temp  +b+1;
+
+	//cout << zipfValue << " \n";
 
 	return zipfValue;
 }
