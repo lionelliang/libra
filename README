@@ -4,7 +4,7 @@ how to run?
 make sure you installed leveldb
 
 1 	make loadToken
-2 	make all
+2 	make libra
 	mkdir impress_home
 3 	./loadToken
 4 	./libra

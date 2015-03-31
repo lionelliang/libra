@@ -26,7 +26,8 @@
 #include "DedupChunkInfoGenerator.h"
 #include "md5.h"
 #include <sstream>
-#include "stat.h"
+//#include "stat.h"
+#include <cmath>
 #include <stdlib.h>
 
 #include "leveldb/db.h"
@@ -100,9 +101,10 @@ string DedupChunkInfoGenerator::generateTokenBlock() {
 
 	int tokenNum=20;
 	for (int i = 0; i < tokenNum; i++) {
-		//zipValue = ZipfMandelbrot(N, q, s);
-		zipValue = ZipfMandelbrot2(0.2627, -1.33, 0);
-		//zipValue = ZipfMandelbrot3(0.1382, 0.4796, 1.023, -5.572e-06);
+		//zipValue = ZipfMandelbrot(0.2627, -1.33, 0);	 	//old data
+		zipValue = ZipfMandelbrot(0.4402, -2.388, 0);		//java data
+		//zipValue = ZipfMandelbrot(0.2869, -1.446, 0);		//cdata data
+
 		string valueStr;
 		valueStr = getString(zipValue);
 		tmap_it = tokenMap.find(valueStr);
@@ -136,13 +138,18 @@ void DedupChunkInfoGenerator::openDB() {
 	 */
 	Options options;
 	options.create_if_missing = true;
+
 	cout << "open leveldb" << endl;
 	leveldb::Status status = leveldb::DB::Open(options, "./leveldb_dir", &db);
+
+	if (!status.ok())
+		cout << status.ToString() << endl;
 	assert(status.ok());
 }
 void DedupChunkInfoGenerator::readTokenMapToDB() {
 
-	ifstream in("./tokenData/token_list.txt");
+	//ifstream in("./tokenData/token_list.txt");
+	ifstream in("./tokenData/token_list_java.txt");
 	if (!in.is_open()) {
 		cout << "Error opening file";
 		exit(1);
@@ -190,33 +197,12 @@ void DedupChunkInfoGenerator::writeDedupInfo() {
 }
 
 /**
- *  k = (H*f)^1/s - q
- */
-long DedupChunkInfoGenerator::ZipfMandelbrot(long N, double q, double s) {
-	assert(N > 0);
-
-	double H = this->getH(N, q, s);
-	//cout <<  "H is " << H << "\n";
-
-	Random rand = Random();
-	double f = rand.uniform();
-	//cout << f << "\n";
-	//double temp = pow(H * f, -1.0 / s);
-	double temp = pow(f + q, -s);
-	//cout << temp << "\n";
-
-	long zipfValue = temp / H;
-
-	return zipfValue;
-}
-
-/**
  *  y = a*x^b + c
  *  k = ((y-c)/a)^1/b
  */
-long ZipfMandelbrot2(double a, double b, double c) {
+long DedupChunkInfoGenerator::ZipfMandelbrot(double a, double b, double c) {
 
-	double f = rand()/(double)RAND_MAX;
+	double f = std::rand()/(double)RAND_MAX;
 	double d = (f-c)/a;
 	double temp = pow(d, 1.0/b);
 	long zipfValue = temp  + 1;
@@ -224,37 +210,4 @@ long ZipfMandelbrot2(double a, double b, double c) {
 	//cout << zipfValue << " \n";
 
 	return zipfValue;
-}
-
-/**
- *  y = a*(x-b)^(-c)+d
- *  k = b + ((f-d)/a)^(-1/c)
- */
-long ZipfMandelbrot3(double a, double b, double c, double d) {
-
-	double f = rand()/(double)RAND_MAX;
-	double e = (f-d)/a;
-	double temp = pow(e, -1.0/c);
-	long zipfValue = temp  +b+1;
-
-	//cout << zipfValue << " \n";
-
-	return zipfValue;
-}
-
-/**
- * H = for i=1:N sum(1/(i + q))
- */
-double DedupChunkInfoGenerator::getH( long N, double q, double s) {
-	assert(N > 0);
-
-	double H = 0.0, temp;
-
-	for (int i = 1; i <= N; i++) {
-		temp = pow((i + q), -s);
-		H += temp;
-	}
-	//cout << H << "\n";
-
-	return H;
 }

@@ -38,6 +38,9 @@
 #include <string>
 #include <set>
 #include <map>
+#include <cmath>
+#include <stdlib.h>
+
 //#include "sqlite3.h"
 //#include "MysqlOperation.h"
 #include "leveldb/db.h"
@@ -113,7 +116,7 @@ public:
 	void loadTokenToMap();
 
 	// added to generate Zipf-Mandelbort distribution
-	long ZipfMandelbrot(long N, double q, double s);
+	long ZipfMandelbrot(double a, double b, double c);
 	double getH(long N, double q, double s);
 
 private:

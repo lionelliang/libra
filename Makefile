@@ -5,7 +5,7 @@ LFLAGS = -L./ -lm
 LEVELDBFLAGS= -lleveldb -lpthread
 CFLAGS += -I./include/ 
 
-all:	libra
+all:	libra	loadToken
 libra: 	word.o get_spec.o extension.o posix_lib.o montecarlo.o impress.o  fragment.o depth.o ssp.o \
  			DedupChunkInfoGenerator.o md5.o strTools.o
 	$(CC) $(CFLAGS) $(LFLAGS) word.o impress.o posix_lib.o get_spec.o extension.o montecarlo.o fragment.o depth.o ssp.o\
@@ -42,4 +42,4 @@ strTools.o:		strTools.cpp
 	$(CC) $(CFLAGS) -c strTools.cpp 
 clean: 
 	rm -f *.o  *.out *~ impressions libra loadToken
-	rm -r impress_home
+	rm -rf impress_home leveldb_dir
