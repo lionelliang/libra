@@ -42,4 +42,4 @@ strTools.o:		strTools.cpp
 	$(CC) $(CFLAGS) -c strTools.cpp 
 clean: 
 	rm -f *.o  *.out *~ impressions libra loadToken
-	rm -rf impress_home leveldb_dir
+	rm -rf impress_home/* leveldb_dir
